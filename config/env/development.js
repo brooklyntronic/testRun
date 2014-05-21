@@ -13,7 +13,7 @@ module.exports = {
     twitter: {
         clientID: 'mgJmjy2ZiZp8OxBp21c5YzwSH',
         clientSecret: 'eTTOF7NdliOzvpgdhfVEBlm3F1nlPuhOQisDq1GknzMMP7xt9F',
-        callbackURL: 'http://localhost:3000/auth/twitter/callback'
+        callbackURL: 'http://www.toosents.com/auth/twitter/callback'
     },
     github: {
         clientID: 'APP_ID',
