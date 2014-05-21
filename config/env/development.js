@@ -8,7 +8,7 @@ module.exports = {
     facebook: {
         clientID: '448805395254583',
         clientSecret: '579e7fffe5b01edc89a231b684d16091',
-        callbackURL: 'https://www.toosents.com/auth/facebook/callback'
+        callbackURL: 'http://www.toosents.com/auth/facebook/callback'
     },
     twitter: {
         clientID: 'mgJmjy2ZiZp8OxBp21c5YzwSH',
