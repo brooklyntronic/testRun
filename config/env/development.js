@@ -21,9 +21,9 @@ module.exports = {
         callbackURL: 'http://localhost:3000/auth/github/callback'
     },
     google: {
-        clientID: 'APP_ID',
-        clientSecret: 'APP_SECRET',
-        callbackURL: 'http://localhost:3000/auth/google/callback'
+        clientID: '814213469343-ct20urli6n4d773edtm002im2uclgqo2.apps.googleusercontent.com',
+        clientSecret: 'gSN64yjVX0xG6Vuny_zpJskD',
+        callbackURL: 'https://www.toosents.com/auth/google/callback'
     },
     linkedin: {
         clientID: 'API_KEY',

@@ -3,11 +3,11 @@
 <section data-ng-controller="ArticlesController" data-ng-init="find()">
 		<div data-ng-repeat="article in articles" class="col-md-6 col-lg-6 col-sm-6">
 			<h2><a data-ng-href="#!/articles/{{article._id}}">{{article.title}}! Vote Now!</a></h2>
-			<div class="pull-left">
-				<h1>{{article.aName}}-{{article.voteA.length}}</h1></div>
-			<div class="pull-right"><h1>{{article.bName}}-{{article.voteB.length}}</h1></div>
+			<div class="col-md-10"><div class="pull-left">
+				<h3>{{article.aName}}-{{article.voteA.length}}</h3></div>
+			<div class="pull-right"><h3>{{article.bName}}-{{article.voteB.length}}</h3></div></div>
 			<div><a data-ng-href="#!/articles/{{article._id}}">
-			<img data-ng-src="http://img.youtube.com/vi/{{article.video}}/0.jpg" class="image-responsive"/></a>
+			<img data-ng-src="http://img.youtube.com/vi/{{article.video}}/0.jpg" class="img-responsive img-rounded"/></a>
 			</div>
 			<h1>{{article.content}}</h1>
 			<a data-ng-href="#!/articles/{{article._id}}" class="btn btn-success text-center">Vote Now!</a>
