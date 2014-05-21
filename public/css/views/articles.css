@@ -1,0 +1,17 @@
+h1 {
+    text-align:center
+}
+
+ul.articles li:not(:last-child) {
+    border-bottom:1px solid #ccc
+}
+
+.comments {
+	margin: 40px 0;
+}
+.comment {
+	padding: 20px;
+}
+.vote-up, .vote-down{
+	margin: 15px;
+}
