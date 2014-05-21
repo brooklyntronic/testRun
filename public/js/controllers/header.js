@@ -6,6 +6,10 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
     $scope.menu = [{
         'title': 'Who\'s Lying?',
         'link': 'articles'
+    },
+    {
+        'title': 'Got Beef?',
+        'link': 'articles/create'
     }];
     
     $scope.isCollapsed = false;

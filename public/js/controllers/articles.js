@@ -7,7 +7,10 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
         $scope.create = function() {
             var article = new Articles({
                 title: this.title,
-                content: this.content
+                content: this.content,
+                video: this.youtube,
+                aName: this.who,
+                bName: this.vsWho
             });
             article.$save(function(response) {
                 $location.path('articles/' + response._id);
@@ -15,6 +18,9 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
 
             this.title = '';
             this.content = '';
+            this.youtube = '';
+            this.who = '';
+            this.vsWho = '';
         };
 
         $scope.remove = function(article) {
