@@ -23,7 +23,7 @@ module.exports = {
     google: {
         clientID: '814213469343-ct20urli6n4d773edtm002im2uclgqo2.apps.googleusercontent.com',
         clientSecret: 'gSN64yjVX0xG6Vuny_zpJskD',
-        callbackURL: 'https://www.toosents.com/auth/google/callback'
+        callbackURL: 'http://www.toosents.com/auth/google/callback'
     },
     linkedin: {
         clientID: 'API_KEY',
