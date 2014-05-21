@@ -23,7 +23,7 @@ module.exports = {
     google: {
         clientID: 'APP_ID',
         clientSecret: 'APP_SECRET',
-        callbackURL: 'http://localhost:3000/auth/google/callback'
+        callbackURL: 'http://www.toosents.com/auth/google/callback'
     },
     linkedin: {
         clientID: 'API_KEY',
