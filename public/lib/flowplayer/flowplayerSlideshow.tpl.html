@@ -1,0 +1,11 @@
+<div id="dots" class="player">
+   <video preload="auto">
+     <source type="video/mp4" ng-src="{{trustSrc(videoConfig.playlist[0], '.mp4')}}">
+     <source type="video/ogg" ng-src="{{trustSrc(videoConfig.playlist[0], '.ogv')}}">
+   </video>
+
+   <div class="fp-playlist">
+      <a ng-repeat="video in videoConfig.playlist" href="{{video}}.mp4" id="dot{{$index}}"></a>
+   </div>
+
+</div>
