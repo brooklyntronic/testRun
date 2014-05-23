@@ -9,7 +9,8 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
     },
     {
         'title': 'Got Beef?',
-        'link': 'articles/create'
+        'link': 'articles/create',
+        'roles': ['authenticated']
     }];
     
     $scope.isCollapsed = false;

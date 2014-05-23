@@ -84,12 +84,12 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
             for (var i = 0; i < article.comments.length; i++) {
                 if (article.comments[i]._id === id) {
                     for (var k = 0; k < article.comments[i].voteA.length; k++) {
-                        if (article.comments[i].voteA[k] == Global.user._id) {
+                        if (article.comments[i].voteA[k] === Global.user._id) {
                             return;
                         }
                     }
                     for (var l = 0; l < article.comments[i].voteB.length; l++) {
-                        if (article.comments[i].voteB[l] == Global.user._id) {
+                        if (article.comments[i].voteB[l] === Global.user._id) {
                             return;
                         }
                     }
@@ -118,7 +118,7 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
                 name: Global.user.name
             });
             article.$update();
-            $scope.commentText = "";
+            $scope.commentText = '';
 
         };
         $scope.find = function() {
