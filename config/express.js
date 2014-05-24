@@ -3,6 +3,7 @@
 /**
  * Module dependencies.
  */
+
 var express = require('express'),
     consolidate = require('consolidate'),
     mongoStore = require('connect-mongo')(express),

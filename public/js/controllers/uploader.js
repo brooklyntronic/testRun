@@ -5,9 +5,10 @@ angular.module('mean.articles')
             'use strict';
             $scope.showFile = false;
             // create a uploader with options
+            var item = {};
             var uploader = $scope.uploader = $fileUploader.create({
                 scope: $scope,                          // to automatically update the html. Default: $rootScope
-                url: 'upload.php',
+                url: '/video/who/',
                 formData: [
                     { key: 'value' }
                 ],
@@ -18,10 +19,9 @@ angular.module('mean.articles')
                     }
                 ]
             });
-    
-    
+            console.log(uploader);
             // FAQ #1
-            var item = {};
+            
             item.remove = function() {
                 uploader.removeFromQueue(this);
             };
@@ -38,7 +38,7 @@ angular.module('mean.articles')
     
             uploader.bind('afteraddingfile', function (event, item) {
                 $scope.showFile = true;
-                console.info('After adding a file', item);
+                console.info('After adding a file', uploader);
             });
     
             uploader.bind('whenaddingfilefailed', function (event, item) {

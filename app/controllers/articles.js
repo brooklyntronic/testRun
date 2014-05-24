@@ -3,14 +3,14 @@
 /**
  * Module dependencies.
  */
+
 var mongoose = require('mongoose'),
     Article = mongoose.model('Article'),
     _ = require('lodash');
-
-
 /**
  * Find article by id
  */
+
 exports.article = function(req, res, next, id) {
     Article.load(id, function(err, article) {
         if (err) return next(err);

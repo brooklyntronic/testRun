@@ -4,6 +4,14 @@
 var articles = require('../controllers/articles');
 var authorization = require('./middlewares/authorization');
 var ffmpeg = require('fluent-ffmpeg');
+var knox = require('knox');
+var client = knox.createClient({
+    key: 'AKIAIGA2C2IZIWOYPCWQ',
+    secret: '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',
+    bucket: 'toosentsvids'
+});
+var fs = require('fs');
+
 
 // Article authorization helpers
 var hasAuthorization = function(req, res, next) {
@@ -33,9 +41,9 @@ module.exports = function(app) {
         var proc = new ffmpeg({
             source: pathToMovie,
             nolog: true
-        })
+        });
         // use the 'flashvideo' preset (located in /lib/presets/flashvideo.js)
-        .usingPreset('flashvideo')
+        proc.usingPreset('flashvideo')
         // setup event handlers
         .on('end', function() {
             console.log('file has been converted succesfully');
@@ -48,7 +56,20 @@ module.exports = function(app) {
             end: true
         });
     });
-    // Finish with setting up the articleId param
+    app.post('/video/who', authorization.requiresLogin, function(res) {
+        fs.readFile('file.mp4', function(err, buf) {
+            var fileReq= client.put('/test/' + res.user.name + '.mp4', {
+                'Content-Type': 'video/mp4'
+            });
+            fileReq.on('response', function(result) {
+                if (200 === result.statusCode) {
+                    console.log('saved to %s', fileReq.url);
+                }
+            });
+            fileReq.end(buf);
+        });
+    });
+    // Finish with setting up the articleId paramsram
     app.param('articleId', articles.article);
 
 };
