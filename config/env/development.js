@@ -29,5 +29,11 @@ module.exports = {
         clientID: 'API_KEY',
         clientSecret: 'SECRET_KEY',
         callbackURL: 'http://localhost:3000/auth/linkedin/callback'
+    },
+    s3: {
+        accessKeyId: "AKIAIGA2C2IZIWOYPCWQ",
+        secretAccessKey: "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",
+        region: "us-east-1",
+        bucket: "toosentsvids"
     }
 };

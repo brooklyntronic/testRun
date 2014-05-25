@@ -18,6 +18,8 @@
     "postinstall": "node node_modules/bower/bin/bower install"
   },
   "dependencies": {
+    "ejs": "~0.8.4",
+    "aws-sdk": "~2.0.0-rc11",
     "express": "~3.4.7",
     "fluent-ffmpeg": "~1.7.1",
     "jade": "~1.0.2",

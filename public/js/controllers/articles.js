@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Global', 'Articles',
-    function($scope, $stateParams, $location, Global, Articles) {
+angular.module('mean.articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Global', 'Articles', '$http', '$upload',
+    function($scope, $stateParams, $location, Global, Articles, $http, $upload) {
         $scope.global = Global;
 
         $scope.create = function() {
@@ -9,8 +9,8 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
                 title: this.title,
                 content: this.content,
                 video: this.youtube,
-                aName: this.who,
-                bName: this.vsWho
+                aName: this.aName,
+                bName: this.bName
             });
             article.$save(function(response) {
                 $location.path('articles/' + response._id);
@@ -135,36 +135,78 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
                 console.log($scope.article);
             });
         };
-        // $scope.onFileSelect = function($files) {
-        //     //$files: an array of files selected, each file has name, size, and type.
-        //     for (var i = 0; i < $files.length; i++) {
-        //       var file = $files[i];
-        //       $scope.upload = $upload.upload({
-        //         url: 'server/upload/url', //upload.php script, node.js route, or servlet url
-        //         // method: 'POST' or 'PUT',
-        //         // headers: {'header-key': 'header-value'},
-        //         // withCredentials: true,
-        //         data: {myObj: $scope.myModelObj},
-        //         file: file, // or list of files: $files for html5 only
-        //         /* set the file formData name ('Content-Desposition'). Default is 'file' */
-        //         //fileFormDataName: myFile, //or a list of names for multiple files (html5).
-        //         /* customize how data is added to formData. See #40#issuecomment-28612000 for sample code */
-        //         //formDataAppender: function(formData, key, val){}
-        //       }).progress(function(evt) {
-        //         console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-        //       }).success(function(data, status, headers, config) {
-        //         // file is uploaded successfully
-        //         console.log(data);
-        //       });
-        //       //.error(...)
-        //       //.then(success, error, progress); 
-        //       //.xhr(function(xhr){xhr.upload.addEventListener(...)})// access and attach any event listener to XMLHttpRequest.
-        //     }
-        //     /* alternative way of uploading, send the file binary with the file's content-type.
-        //        Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed. 
-        //        It could also be used to monitor the progress of a normal http post/put request with large data*/
-        //     // $scope.upload = $upload.http({...})  see 88#issuecomment-31366487 for sample code.
-        //   };
+         $scope.imageUploads = [];
+        $scope.abort = function(index, model) {
+            $scope.upload.abort();
+            $scope.upload = null;
+            if (model === 'a'){
+                $scope.filesA = null;
+            }
+            else{
+                $scope.filesB = null;
+            }
+        };
+        $scope.wrongFileType = false;
+        $scope.onFileSelect = function ($files, model) {
+            $scope.upload = [];
+            $scope.filesA=model==='a'?$files:null;
+            $scope.filesB=model==='b'?$files:null;
+                var file = $files[0];
+                if (file.type !== 'video/mp4'){
+                    file.wrongFileType = true;
+                    console.log('Wrong');
+                    return;
+                }
+                else {
+                    file.wrongFileType = false;
+                }
+                file.progress = parseInt(0);
+                (function (file) {
+                    $http.get('/api/s3Policy?mimeType='+ file.type).success(function(response) {
+                        var s3Params = response;
+                        $scope.upload = $upload.upload({
+                            url: 'https://toosentsvids.s3.amazonaws.com/',
+                            method: 'POST',
+                            data: {
+                                'key' : 's3UploadExample/'+ Math.round(Math.random()*10000) + '$$' + file.name,
+                                'acl' : 'public-read',
+                                'Content-Type' : file.type,
+                                'AWSAccessKeyId': s3Params.AWSAccessKeyId,
+                                'success_action_status' : '201',
+                                'Policy' : s3Params.s3Policy,
+                                'Signature' : s3Params.s3Signature
+                            },
+                            file: file,
+                        }).then(function(response) {
+                            file.progress = parseInt(100);
+                            if (response.status === 201) {
+                                var data = window.xml2json.parser(response.data),
+                                parsedData;
+                                parsedData = {
+                                    location: data.postresponse.location,
+                                    bucket: data.postresponse.bucket,
+                                    key: data.postresponse.key,
+                                    etag: data.postresponse.etag
+                                };
+                                console.log(file.name);
+                                if (model==='a'){
+                                    $scope.aName = file.name;
+                                    console.log(parsedData.location);
+                                }
+                                else {
+                                    $scope.bName = file.name;
+                                }
+                                
 
+
+                            } else {
+                                alert('Upload Failed');
+                            }
+                        }, null, function(evt) {
+                            file.progress =  parseInt(100.0 * evt.loaded / evt.total);
+                        });
+                    });
+                }(file));
+        };
     }
 ]);
