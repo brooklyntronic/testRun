@@ -12,6 +12,7 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
                 aName: this.aName,
                 bName: this.bName
             });
+            $http.get('/api/mergeFiles/'+ this.aName+'/' + this.bName);
             article.$save(function(response) {
                 $location.path('articles/' + response._id);
             });

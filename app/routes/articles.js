@@ -3,8 +3,12 @@
 // Articles routes use articles controller
 var articles = require('../controllers/articles');
 var authorization = require('./middlewares/authorization');
+var ffmpeg = require('fluent-ffmpeg');
 var api = require('../../config/api'),
-    aws = require('../../config/aws');
+    aws = require('../../config/aws'),
+    request = require('request'),
+    AWS = require('aws-sdk'),
+    fs = require('fs');
 // var ffmpeg = require('fluent-ffmpeg');
 
 
@@ -59,9 +63,31 @@ module.exports = function(app) {
     // });
     // Finish with setting up the articleId paramsram
 
-    app.get('/api/config',authorization.requiresLogin, api.getClientConfig);
-    app.get('/api/s3Policy',authorization.requiresLogin, aws.getS3Policy);
+    app.get('/api/config', authorization.requiresLogin, api.getClientConfig);
+    app.get('/api/s3Policy', authorization.requiresLogin, aws.getS3Policy);
+    app.get('/api/mergeFiles/:fileId/:fileIdB', authorization.requiresLogin, function(req, res) {
+        // var filePathB = req.params.fileIdB;
+        request.get('http://d23grucy15vpbj.cloudfront.net/s3UploadExample%2F6293%24VfE_html5.mp4', function(error, response, body) {
+            var proc = new ffmpeg({
+                source: response,
+                nolog: true
+            });
+            proc.usingPreset('divx')
+            // setup event handlers
+            .on('end', function() {
+                console.log('file has been converted succesfully');
+            })
+                .on('error', function(err) {
+                    console.log('an error happened: ' + err.message);
+                })
+            // save to stream
+            .writeToStream(res, {
+                end: true
+            });
+            console.log(response);
+        });
 
+    });
     // All undefined api routes should return a 404
     app.get('/api/*', function(req, res) {
         res.send(404);
