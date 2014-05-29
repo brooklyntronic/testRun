@@ -6,3 +6,7 @@
 node_modules/
 test/coverage
 mean.iml
+app/
+test/
+.aws/
+config/
